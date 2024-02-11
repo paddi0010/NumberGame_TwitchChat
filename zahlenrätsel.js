@@ -15,8 +15,8 @@ const client = new tmi.Client({
     channels: config.channels,
 });
 
-const minNumber = 1;
-const maxNumber = 100;
+let minNumber = 1;
+let maxNumber = 100;
 let targetNumber;
 let guesses = 0;
 let gameRunning = false;
@@ -32,10 +32,25 @@ client.on('message', (channel, tags, message, self) => {
     if (message.toLowerCase() === '!start') {
         startNumberGame(channel);
     } else if (gameRunning && !isNaN(parseInt(message))) {
-        const guess = parseInt(message);
-        makeGuess(channel, guess);
+        makeGuess(channel, message); // Nachricht wird an makeGuess übergeben
+    } else if (message.toLowerCase().startsWith('!setrange ')) {
+        setRange(channel, message); // setRange-Funktion aufrufen
+    } else if (message.toLowerCase().startsWith('!guess ')) {
+        makeGuess(channel, message.substring(7)); // Nachricht ohne das Präfix "!guess" wird an makeGuess übergeben
     }
 });
+
+function setRange(channel, message) {
+    const args = message.split(' ');
+    if (args.length === 3 && !isNaN(parseInt(args[1])) && !isNaN(parseInt(args[2]))) {
+        minNumber = parseInt(args[1]);
+        maxNumber = parseInt(args[2]);
+        client.say(channel, `Neuer Zahlenbereich festgelegt: ${minNumber} bis ${maxNumber}`);
+    } else {
+        client.say(channel, `Ungültige Verwendung! Verwendung: !setrange <minedestzahl> <höchstzahl>`);
+    }
+}
+
 function startNumberGame(channel) {
     if (gameRunning) {
         client.say(channel, `Ein Spiel läuft bereits. Bitte beendet das aktuelle Spiel, bevor ihr ein neues startet.`);
@@ -48,14 +63,26 @@ function startNumberGame(channel) {
     client.say(channel, `Das Spiel wurde gestartet! Ihr könnt jetzt eine Zahl zwischen ${minNumber} und ${maxNumber} raten.`);
 }
 
-function makeGuess(channel, guess) {
+function makeGuess(channel, message) {
+    if (!gameRunning) {
+        client.say(channel, `Es läuft derzeit kein Spiel. Tippe "!start" in den Chat ein, um eines zu beginnen.`);
+        return;
+    }
+
+    const guess = parseInt(message); // Die geratene Zahl aus der Nachricht extrahieren
+
     guesses++;
+
+    if (isNaN(guess)) {
+        client.say(channel, `Ungültige Verwendung! Verwendung: !guess <zahl>`);
+        return;
+    }
 
     if (guess === targetNumber) {
         client.say(channel, `Glückwunsch! Ihr habt die Zahl ${targetNumber} in ${guesses} Versuchen erraten! ✅`);
         gameRunning = false;
     } else if (guess < targetNumber) {
-        client.say(channel, `Die gescuhte Zahl ist größer als ${guess}. ↗️ Versucht es erneut`);
+        client.say(channel, `Die gesuchte Zahl ist größer als ${guess}. ↗️ Versucht es erneut`);
     } else {
         client.say(channel, `Die Zahl ist kleiner als ${guess}. ↘️ Versucht es erneut.`);
     }
