@@ -8,7 +8,7 @@ First, you must install NodeJs, you can find it here: https://nodejs.org/en and 
 The answers of the Bot are in German language!
 
 
-# How to use it
+# How to use it ❓
 
 
 You can extract the zip archive wherever you like, preferably on your desktop. After you have unpacked this, you can start by entering the following values into the variables, you can do it in the /secret_data/config.json File. 
@@ -31,9 +31,9 @@ Now the Twitch Game should be started!
 **For stop the Bot, you can easy close the Command Window ;)**
 
 
-# How to edit Bot Messages
+# How to edit Bot Messages 💻
 
-You can open the `zahlenrätsel.js` File and you can see a lot of Code. If you want to change the Message, you can change it.
+You can open the `numbergame.js` File and you can see a lot of Code. If you want to change the Message, you can change it.
 
 --> *I am a beginner in JavaScript, so there may be errors.
 If you find a bug or encounter any other issues, feel free to open a issue, and I'll do my best to fix the bug or help you.* :)
