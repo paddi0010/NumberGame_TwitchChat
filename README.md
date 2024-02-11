@@ -1,6 +1,6 @@
 # Introduction
 
-This is a chat game names "Numberguessr" and using JavaScript library tmi.js and node.js.
+This is a chat game names "Number Game" and using JavaScript library tmi.js and node.js.
 
 
 First, you must install NodeJs, you can find it here: https://nodejs.org/en and click the Button "20.11.0 LTS"
