@@ -1,0 +1,15 @@
+v1.0.0 Dev @paddi001
+
+
+//Allgemeine Commands
+
+!start - Startet das NumberGame
+!stop - Stoppt das NumberGame
+!number - Zeit alle Commands an, die verfügbar sind.
+!guess <zahl> - Eine Zahl raten.
+
+
+
+//FÜR KONFIGURATION//
+
+!setrange <mindestzahl> <höchstzahl> - Die mindestzahl und höchstzahl einstellen.
