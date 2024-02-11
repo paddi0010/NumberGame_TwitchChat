@@ -1,8 +1,9 @@
 {
-    "channels" : ["JOINED_CHANNELS"],
+    "channels" : ["JOINDED_CHANNELS"],
 
     "identify": {
-        "username": "BOT_USERNAME",
-        "password": "BOT_OAUTH_TOKEN"
-    }
+		"username": "BOT_USERNAME",
+		"password": "OAUTH_BOT_TOKEN"
+
+	}
 }
