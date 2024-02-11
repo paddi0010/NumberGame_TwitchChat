@@ -2,7 +2,7 @@
   "name": "neuer-ordner",
   "version": "1.0.0",
   "description": "",
-  "main": "zahlenrätsel.js",
+  "main": "numbergame.js",
   "scripts": {
     "start": "node ."
   },
