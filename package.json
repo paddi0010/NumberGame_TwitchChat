@@ -1,0 +1,14 @@
+{
+  "name": "neuer-ordner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "zahlenrätsel.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "tmi.js": "^1.8.5"
+  }
+}
