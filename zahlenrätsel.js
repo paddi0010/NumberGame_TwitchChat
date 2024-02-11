@@ -32,12 +32,12 @@ client.on('message', (channel, tags, message, self) => {
     if (message.toLowerCase() === '!start') {
         startNumberGame(channel);
     } else if (gameRunning && !isNaN(parseInt(message))) {
-        makeGuess(channel, message); // Nachricht wird an makeGuess übergeben
+        makeGuess(channel, message); 
     } else if (message.toLowerCase().startsWith('!setrange ')) {
-        setRange(channel, message); // setRange-Funktion aufrufen
+        setRange(channel, message); 
     } else if (message.toLowerCase().startsWith('!guess ')) {
-        makeGuess(channel, message.substring(7)); // Nachricht ohne das Präfix "!guess" wird an makeGuess übergeben
-    }
+        makeGuess(channel, message.substring(7));
+    } 
 });
 
 function setRange(channel, message) {
