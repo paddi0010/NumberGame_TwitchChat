@@ -15,8 +15,10 @@ const client = new tmi.Client({
     channels: config.channels,
 });
 
+//Variables
 let minNumber = 1;
 let maxNumber = 100;
+let maxGameDuration = 1 * 60 * 1000; // 5 Minuten
 let targetNumber;
 let guesses = 0;
 let gameRunning = false;
@@ -26,6 +28,7 @@ client.on('connected', (address ,port) => {
     client.say(channel, `Willkommen zum Zahlenratespiel! 🔢 Tippt "!start" in den Chat, um zu beginnen.`);
 });
 
+//Commands
 client.on('message', (channel, tags, message, self) => {
     if (self) return;
 
@@ -39,8 +42,33 @@ client.on('message', (channel, tags, message, self) => {
         makeGuess(channel, message.substring(7));
     } else if (message.toLowerCase().startsWith('!stop')) {
         stopGame(channel);
+    } else if (message.toLowerCase().startsWith('!number')) {
+        helpCommand(channel, message, tags);
     }
 });
+
+
+function startNumberGame(channel) {
+    if (gameRunning) {
+        client.say(channel, `Ein Spiel läuft bereits. ⚠️ Bitte beendet das aktuelle Spiel, bevor ihr ein neues startet.`);
+        return;
+    }
+
+    gameStartTime = Date.now();
+
+    targetNumber = Math.floor(Math.random() * (maxNumber - minNumber + 1)) + minNumber;
+    guesses = 0;
+    gameRunning = true;
+
+    
+    const remainingTimeInMinutes = Math.ceil(maxGameDuration / (1000 * 60));
+
+    
+    client.say(channel, `Das Spiel wurde gestartet! ✅ Ihr könnt jetzt eine Zahl zwischen ${minNumber} und ${maxNumber} raten. Ihr habt ca. ${remainingTimeInMinutes} Minuten Zeit. ⌛`);
+
+    startGameTimer(channel);
+}
+
 
 function setRange(channel, message) {
     const args = message.split(' ');
@@ -49,31 +77,10 @@ function setRange(channel, message) {
         maxNumber = parseInt(args[2]);
         client.say(channel, `Neuer Zahlenbereich festgelegt: ${minNumber} bis ${maxNumber} ✅`);
     } else {
-        client.say(channel, `Ungültige Verwendung! ⚠️ Verwendung: !setrange <minedestzahl> <höchstzahl>`);
+        client.say(channel, `Ungültige Verwendung! ⚠️ Verwendung: !setrange <mindestzahl> <höchstzahl>`);
     }
 }
 
-function startNumberGame(channel) {
-    if (gameRunning) {
-        client.say(channel, `Ein Spiel läuft bereits. ⚠️ Bitte beendet das aktuelle Spiel, bevor ihr ein neues startet.`);
-        return;
-    }
-
-    targetNumber = Math.floor(Math.random() * (maxNumber - minNumber + 1)) + minNumber;
-    guesses = 0;
-    gameRunning = true;
-    client.say(channel, `Das Spiel wurde gestartet! ✅ Ihr könnt jetzt eine Zahl zwischen ${minNumber} und ${maxNumber} raten.`);
-}
-
-function stopGame(channel) {
-    if (!gameRunning) {
-        client.say(channel, `Es läuft derzeit kein Spiel, das gestoppt werden kann. ❌`);
-        return;
-    }
-
-    client.say(channel, `Das Spiel wurde gestoppt. ❌ Die gesuchte Zahl war ${targetNumber}. 🔢`);
-    gameRunning = false;
-}
 
 function makeGuess(channel, message) {
     if (!gameRunning) {
@@ -100,5 +107,35 @@ function makeGuess(channel, message) {
     }
 }
 
+
+function stopGame(channel, manualStop = true) {
+    if (!gameRunning) {
+        client.say(channel, `Es läuft derzeit kein Spiel, das gestoppt werden kann. ❌`);
+        return;
+    }
+
+    if (manualStop) {
+        client.say(channel, `Das Spiel wurde gestoppt. ❌ Die gesuchte Zahl war ${targetNumber}. 🔢`);
+    }
+
+    gameRunning = false;
+}
+
+function helpCommand(channel, tags) {
+    const message = `🔢 Zahlenspiel-Commands: !start, !stop, !setrange <mindestzahl> <höchstzahl> || ${tags.username} ||`;
+
+    client.say(channel, message);
+}
+
+function startGameTimer(channel) {
+   const timer = setTimeout (() => {
+    if (gameRunning) {
+        stopGame(channel, false);
+        client.say(channel, `Die Spielzeit ist abgelaufen, das Spiel wurde beendet. ⌛❌`);
+    }
+   }, maxGameDuration);
+
+   gameTimer = timer;
+}
 
 client.connect().catch(console.error);
