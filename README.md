@@ -28,10 +28,10 @@ Now the Twitch Game should be started!
 
 *If you become the message `Login authentication failed`, check your login infomation in the /secret_data/config.json file*
 
-**For stop the Bot, you can easy close the Command Window ;)**
+**For stop the Game, you can easy close the Command Window ;)**
 
 
-# How to edit Bot Messages 💻
+# How to edit Game Messages 💻
 
 You can open the `numbergame.js` File and you can see a lot of Code. If you want to change the Message, you can change it.
 
