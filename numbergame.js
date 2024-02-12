@@ -18,7 +18,7 @@ const client = new tmi.Client({
 //Variables
 let minNumber = 1;
 let maxNumber = 100;
-let maxGameDuration = 1 * 60 * 1000; // 5 Minuten
+let maxGameDuration = 1 * 60 * 1000; // 1 Minute
 let targetNumber;
 let guesses = 0;
 let gameRunning = false;
