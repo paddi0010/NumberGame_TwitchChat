@@ -30,6 +30,13 @@ Now the Twitch Game should be started!
 
 **For stop the Game, you can easy close the Command Window ;)**
 
+| Command | Description |
+| --- | --- |
+| `!start` | Start the NumberGame |
+| `!stop` | Stop the NumberGame |
+| `!guess <number>` | Guess the Number |
+| `!number` | Show all Commands |
+| `!setrange <number>` | Set the Range of the Number |
 
 # How to edit Game Messages 💻
 
